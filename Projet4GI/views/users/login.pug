@@ -1,0 +1,36 @@
+extends ../layout
+
+block content
+    form.modal-content.container.col-md-4.d-flex.justify-content-center.mt-0(action='/users/login', method='post', style={'margin-top': '30px'})
+        .modal-header.blue-gradient.darken-3.white-text
+            h4.text-center
+                | Connexion
+        .modal-body.form-elegant
+            .switch.d-flex.justify-content-center.blue-text
+                label
+                    | Administrateur
+                    input(type='checkbox', name='type_personne', id='type_personne', checked='false')
+                    span.lever
+                    | Client
+
+            .md-form
+                input(type='text', id='email', name='email').form-control
+                label(for='email') Email
+            .md-form.pb-3
+                input(type='password', id='password', name='password').form-control
+                label(for='password') Mot De Passe
+            .text-center.mb-3
+                input(type='hidden', id='typeSelect', name='typeSelect')
+                button(type='submit', onclick='setType();').btn.blue-gradient.btn-block.btn-rounded.z-depth-1a Connexion
+            p.font-small.dark-grey-text.text-right.d-flex.justify-content-center.mb-3.pt-2 or Connectez Vous Avec
+            .row.my-3.d-flex.justify-content-center
+                button(type='button').btn.btn-white.btn-rounded.mr-md-2.z-depth-1a
+                    i.fa.fa-facebook.text-center(style={color: '#2196F3'})
+                button(type='button').btn.btn-white.btn-rounded.mr-md-3.z-depth-1a
+                    i.fa.fa-google.text-center(style={color: '#2196F3'})
+                button(type='button').btn.btn-white.btn-rounded.mr-md-3.z-depth-1a
+                    i.fa.fa-twitter.text-center(style={color: '#2196F3'})
+
+        .modal-footer.mx-5.pt-3.mb-1
+            p.font-small.grey-text.d-flex.justify-content-end Pas encore Inscrit?
+                a(href='#').blue-text.ml-1 Inscrivez Vous

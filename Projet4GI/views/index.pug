@@ -1,0 +1,66 @@
+extends layout
+
+block content
+  if message
+    h1.text-center.warning #{message}
+  .orbit(role='region', aria-label='Favorite Space Pictures', data-orbit)
+    ul.orbit-container
+      button.orbit-previous(aria-label='previous')
+        span.show-for-sr Previous Slide
+        |&#9664;
+      button.orbit-next(aria-label='next')
+        span.show-for-sr Next Slide
+        |&#9654;
+      li.orbit-slide.is-active
+        img(src='http://placehold.it/2000x750')
+        //h1(style={weight: '700px', height: '600px', background: 'grey'}).text-center Photo De Poulet
+      li.orbit-slide
+        img(src='http://placehold.it/2000x750')
+        //h1(style={weight: '700px', height: '600px', background: 'grey'}).text-center Condition D'Elevage
+      li.orbit-slide
+        img(src='http://placehold.it/2000x750')
+        //h1(style={weight: '700px', height: '600px', background: 'grey'}).text-center Produit Alimentaire
+
+  .text-center.grid-container.fluid
+    hr
+    h2 Nos Produits
+    hr
+  .grid-x.grid-padding-x.grid-container
+
+    - for (var i=0; i<4 ;i++) {
+    .cell.small-3
+      img.thumbnail(src='http://placehold.it/300x400')
+      h5 Nom Poulet
+      h6 Type Poulet - Grosseur
+      h6 Quantité
+      p $400
+      a.button.expanded.blue-gradient(href='#') Consulter
+    - }
+  hr
+  .text-center
+    h2 Nos Prestations
+  hr
+  .grid-container.grid-x.grid-padding-x
+    - for (var i=0;i<4;i++) {
+    .small-3.cell
+      img.thumbnail(src='http://placehold.it/300x400')
+      h5 Nom Prestation
+      h6 Durée
+      p $400
+    - }
+  hr
+  .text-center
+    h2 Réalisation de Plats Par Nos Restaurants Partenaires
+  hr
+  .grid-container.grid-x.grid-padding-x
+    - for (var i=0;i<4;i++) {
+    .small-3.cell
+      img.thumbnail(src='http://placehold.it/300x400')
+      h5 Nom Restaurant
+      h6 Nom Plat
+    - }
+
+
+
+
+
