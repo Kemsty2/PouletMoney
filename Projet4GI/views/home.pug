@@ -1,4 +1,141 @@
 extends layout
 
 block content
-    h2
+    .container-fluid.jumbotron.jumbotron-fluid.blue-gradient.white-text.text-center.grid-padding-y.smooth-scroll
+        h2.bg-gr Bienvenu Sur Poulet Money
+        p Dans cette section vous retrouverez les differents offres de poulet dont nous disposons
+        p <a href = '#offre' class='btn btn-outline-primary waves-effect blue-grey lighten-5 '> Visitez les Offres </a>
+
+    .container-fluid.grid-margin-x.grid-x
+        .small-3.cell
+            .card.blue-grey.lighten-5
+                .card-body
+                    h3.card-title.text-center Filtre
+                    hr.blue
+                    p.title.blue-text Quantité
+                    .form-group
+                        input(type='radio', name='quantite', id='qte1', checked='checked').with-gap
+                        label(for='qte1') (0 - 20)
+                    .form-group
+                        input(type='radio', name='quantite', id='qte2').with-gap
+                        label(for='qte2') (20 - 50)
+                    .form-group
+                        input(type='radio', name='quantite', id='qte3').with-gap
+                        label(for='qte3') (50 - 100)
+                    .form-group
+                        input(type='radio', name='quantite', id='qte4').with-gap
+                        label(for='qte4') ( >100)
+
+                    hr.blue
+                    p.title.blue-text Grosseur
+                    .form-group
+                        input(type='checkbox', id='gro1', name='gro1').form-group
+                        label(for='gro1') Groupe1
+                    .form-group
+                        input(type='checkbox', id='gro2', name='gro2').form-group
+                        label(for='gro2') Groupe2
+                    .form-group
+                        input(type='checkbox', id='gro3', name='gro3').form-group
+                        label(for='gro3') Groupe3
+
+                    hr.blue
+                    p.title.blue-text Type Poulet
+                    .form-group
+                        input(type='checkbox', id='type1', name='type1').form-group
+                        label(for='type1') Type1
+                    .form-group
+                        input(type='checkbox', id='type2', name='type2').form-group
+                        label(for='type2') Type2
+                    .form-group
+                        input(type='checkbox', id='type3', name='type3').form-group
+                        label(for='type3') Type3
+                    hr.blue
+                    p.title.blue-text Date
+                    input(type='date', name='date', id='date', placeholder='Veuillez Selectionner une date')
+                    br
+                    .md-form.d-flex.justify-content-center.mt-2
+                        button(type='submit').btn.btn-white.btn-outline-blue Filtrer
+
+
+        section.small-9.cell(id='offre')
+            hr
+            h2.title.text-center Nos Offres
+            hr
+            .grid-x.grid-padding-x.grid-container
+                input(type='hidden', name='choixOffre', id='choixOffre')
+                each offre in offres
+                    .cell.small-3
+                        -var image = offre.img
+                        img(id='oldimage').thumbnail(src= image)
+                        h5(id = 'oldtype') <u><strong>Type</strong></u>: #{offre.type_poulet}
+                        h6(id='oldgrosseur') <u><strong>Grosseur</strong></u>: #{offre.grosseur}
+                        h6(id='oldquantite') <u><strong>Quantité</strong></u>: #{offre.quantite}
+                        p(id='oldprix') <u><b>Prix</b></u>: #{offre.prix}
+                        - var id = offre._id;
+                        button.button.expanded.blue-gradient(data-target='#modalQuickView',data-toggle='modal' onclick='look(this);', value= id ) Consulter
+
+
+
+
+    .modal.fade(id='modalQuickView', tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel', aria-hidden='true')
+        .modal-dialog.modal-fluid(role='document')
+            .modal-content
+                .modal-body
+                    .row
+                        .col-lg-4
+                            hr.light-blue
+                            h2.text-center Votre Offre
+                            hr.light-blue
+                            .card.pricing-card.card-cascade
+                                .price.header
+                                    .version
+                                        h5(id='typePoulet').card-title Type Poulet
+                                    .view.overlay.hm-white-light
+                                        img(id='imagePoulet').thumbnail(src='/images/img.jpg')
+                                    .text-center
+                                        .card-body.striped
+                                            ul.text-left.dark-grey-text
+                                                li(id='grosseur') Grosseur
+                                                li(id='quantite') Quantite
+                                                li(id='prix') Prix
+                        .col-lg-8
+                            hr.light-blue
+                            h2.text-center Choisir Votre Prestation
+                            hr.light-blue
+                            .row
+                                each prestation in prestations
+                                    .col-md-4
+                                        .card.pricing-card.card-cascade
+                                            .price.header
+                                                .version
+                                                    h5.card-title #{prestation.nom}
+                                            .view.overlay.hm-white-light
+                                                -var presPhoto = prestation.img;
+                                                img(src=presPhoto, alt='image').img-fluid
+                                            .text-center
+                                                .card-body.striped
+                                                    ul.text-left
+                                                        li <u>Prix: </u> #{prestation.prix}
+                                                        li <u>Durée: </u> #{prestation.duree}
+                                                        li(style={"font-size": "10px"}) #{prestation.date_publication}
+                                                        -var id2 = prestation._id;
+                                                    button(type='button', onclick='addtocard(this);', value=id2).btn.btn-light-blue.btn-rounded Ajouter Au Panier
+
+
+        script(type='text/javascript').
+            function look(elt){
+                var choixOffre = document.getElementById('choixOffre');
+                choixOffre.value = elt.value;
+                document.getElementById('typePoulet').textContent = document.getElementById('oldtype').textContent;
+                document.getElementById('imagePoulet').src = document.getElementById('oldimage').src;
+                document.getElementById('grosseur').textContent = document.getElementById('oldgrosseur').textContent;
+                document.getElementById('quantite').textContent = document.getElementById('oldquantite').textContent;
+                document.getElementById('prix').textContent = document.getElementById('oldprix').textContent;
+
+            }
+
+            function addtocard(elt){
+                var choixOffre = document.getElementById('choixOffre').value;
+                var choixPrestation = elt.value;
+                alert('http://localhost/addtocart/offre/' +choixOffre + '/prestation/' + choixPrestation);
+            }

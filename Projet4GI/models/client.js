@@ -33,7 +33,8 @@ var clientSchema = new Schema({
         email: String,
         name: String
     },
-    type_personne: {type: String, required: true}
+    type_personne: {type: String, required: true},
+    compteID: {type: String, required: true}
 });
 
 clientSchema.methods.encryptPassword = function(password){

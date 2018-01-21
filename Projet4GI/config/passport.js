@@ -8,6 +8,7 @@ var TwitterStrategy = require('passport-twitter').Strategy;
 var passport = require('passport');
 
 var Admin = require('../models/administrateur');
+var Compte = require('../models/compte');
 var Client = require('../models/client');
 var configureAuth = require('./auth');
 
@@ -73,6 +74,8 @@ passport.use('register', new LocalStrategy({
             console.log('Client Existant');
             return done(null, false, req.flash('message', 'Client Existant'));
         } else{
+            var compteClient = new Compte();
+            compteClient.montant = 200000;
             var newClient = new Client();
             newClient.local.email = emailRegister;
             newClient.local.password = newClient.encryptPassword(passwordRegister);
@@ -82,6 +85,7 @@ passport.use('register', new LocalStrategy({
             newClient.local.ville = req.param('ville1');
             newClient.local.quartier = req.param('quartier1');
             newClient.type_personne = 'Client';
+            newClient.compteID = compteClient._id;
 
             newClient.save(function(err){
                 if(err){
@@ -89,6 +93,7 @@ passport.use('register', new LocalStrategy({
                     throw err;
                 }
                 console.log("Inscription Reussi");
+                req.flash('compteMessage', 'Bienvenue Votre Compte a été initialisé à 200000 FCFA. Profiter En!!!');
                 return done(null, newClient);
             });
         }
@@ -110,6 +115,8 @@ function(accessToken, refreshToken, profile, done){
             }else{
                 console.log(profile);
                 console.log(accessToken);
+                var compteClient = new Compte();
+                compteClient.montant = 200000;
                 var newClient = new Client();
                 newClient.facebook.id = profile.id;
                 newClient.facebook.token = accessToken;
@@ -117,6 +124,7 @@ function(accessToken, refreshToken, profile, done){
                 //newClient.facebook.email = profile.emails[0].value;
                 newClient.type_personne = 'Client';
                 newClient.local.nom = newClient.facebook.name;
+                newClient.compteID = compteClient._id;
 
                 newClient.save(function(err){
                     if(err)
@@ -142,11 +150,14 @@ passport.use(new GoogleStrategy({
         else{
             console.log(profile);
             console.log(accessToken);
+            var compteClient = new Compte();
+            compteClient.montant = 200000;
             var newClient = new Client();
             newClient.google.id = profile.id;
             newClient.google.token = accessToken;
             newClient.google.email = profile.emails[0].value
             newClient.google.name = profile.displayName;
+            newClient.compteID = compteClient._id;
 
             newClient.save(function(err){
                 if(err)
@@ -158,7 +169,7 @@ passport.use(new GoogleStrategy({
 }));
 
 passport.use(new TwitterStrategy({
-    consumerkey: configureAuth.twitterAuth.consumerKey,
+    consumerKey: configureAuth.twitterAuth.consumerKey,
     consumerSecret: configureAuth.twitterAuth.consumerSecret,
     callbackURL: 'http://localhost:3000/users/auth/twitter/callback'
 }, function(accessToken, refreshToken, profile, done){
@@ -170,11 +181,14 @@ passport.use(new TwitterStrategy({
         }else{
             console.log(profile);
             console.log(accessToken);
+            var compteClient = new Compte();
+            compteClient.montant = 200000;
             var newClient = new Client();
             newClient.twitter.id = profile.id;
             newClient.twitter.token = accessToken;
             newClient.twitter.displayName = profile.displayName;
             newClient.twitter.username = profile.username;
+            newClient.compteID = compteClient._id;
 
             newClient.save(function(err){
                 if(err)

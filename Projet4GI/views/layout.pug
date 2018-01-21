@@ -18,7 +18,7 @@ html(class='no-js', lang='fr')
       .top-bar
         .top-bar-left
           ul.menu
-            li.menu-text Poulet Money
+            li(onclick='acc();').menu-text Poulet Money
             li
               a(href='#') Nos Offres
             li
@@ -42,7 +42,7 @@ html(class='no-js', lang='fr')
     block content
 
 
-    footer.page-footer.center-on-small-only.blue-grey.lighten-5.pt-0
+    footer.page-footer.center-on-small-only.blue-grey.lighten-5.pt-0(id='footer')
       .container-fluid.blue-gradient
         .row.py-4.d-flex.align-items-center
           .col-md-5.col-12.text-left.mb-4.mb-md-0
@@ -235,15 +235,19 @@ html(class='no-js', lang='fr')
               alert('im here');
               document.location = 'http://localhost:3000/users/auth/twitter';
           }
+          function acc(){
+              document.location = 'http://localhost:3000';
+          }
       script(type='text/javascript', src='/javascripts/jquery.js')
       script(type='text/javascript', src='/javascripts/foundation.js')
       script(type='text/javascript', src='/javascripts/app.js')
       script(type='text/javascript', src='/javascripts/popper.min.js')
       script(type='text/javascript', src='/javascripts/bootstrap.min.js')
-      script(type='text/javascript', src='/javascripts/compiled.min.js')
+      //script(type='text/javascript', src='/javascripts/compiled.min.js')
       script(type='text/javascript', src='/javascripts/jquery-3.2.1.min.js')
+      script(type='text/javascript', src='/javascripts/mdb.js')
       script(type='text/javascript', src='/javascripts/jquery-1.js')
+      script(type='text/javascript', src='/javascripts/typeahead.js')
       script(type='text/javascript', src='/javascripts/handlebars.js')
       script(type='text/javascript', src='/javascripts/examples.js')
-      script(type='text/javascript', src='/javascripts/typeahead.js')
 
