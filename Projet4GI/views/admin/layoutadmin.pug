@@ -1,0 +1,113 @@
+doctype html
+html(class='no-js', lang='fr')
+    head
+        meta(charset='utf-8')
+        meta(http-equiv='Content-type', content='text/html')
+        meta(name='viewport', content='width=device-width, initial-scale=1.0')
+        link(rel='stylesheet', href='/stylesheets/foundation.css')
+        link(rel='stylesheet', href='/stylesheets/font-awesome.css')
+        link(rel='stylesheet', href='/admin/bootstrap.css')
+        link(rel='stylesheet', href='/admin/mdb.css')
+        title PouletMoney - Acceuil
+
+
+    body.white-skin
+        block navbar
+            header.mb-lg-5
+                ul(id='slide-out', style={transform: 'translateX(-100%)'}, data-ps-id='cdb3e62a-8941-6b22-3497-ee40608341d2').side-nav.fixed.custom-scrollbar.ps.ps--theme_default.ps--active-y
+                    li.logo-sn.waves-effect
+                        .text-center.menu-text
+                            a(href='#').pl-0 Administration Poulet Money
+                    li
+                        ul.collapsible.collapsible-accordion
+                            li <a class="collapsible-header waves-effect arrow-r" href="/admin/listeclient"><i class="fa fa-user"></i> Gestions Clients </a>
+                            li <a class="collapsible-header waves-effect arrow-r" href="/admin/listeoffre"><i class="fa fa-photo"></i> Gestions Offres </a>
+                            li <a class="collapsible-header waves-effect arrow-r" href="/admin/listeprestation><i class="fa fa-photo"></i> Gestions Prestations </a>
+                            li <a class="collapsible-header waves-effect arrow-r" href="/admin/listedemande"><i class="fa fa-photo"></i> Gestions Demandes </a>
+                    .sidenav-bg.mask-strong
+                    .ps__scrollbar-x-rail(style={left: '0px', bottom: '0px'}) <div class="ps__scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+                    .ps__scrollbar-y-rail(style={top: '0px', height: '654px', right: '0px'}) <div class="ps__scrollbar-y" tabindex="0" style="top: 0px; height: 20px;"></div>
+                nav.navbar.fixed-top.navbar-toggleable-md.navbar-expand-lg.scrolling-navbar.double-nav.blue-grey.lighten-5
+                    .float-left <a href="#" data-activates="slide-out" class="button-collapse black-text"><i class="fa fa-bars"></i></a>
+                    .breadcrumb-dn.mr-auto
+                        p Administration Poulet Money
+                    ul.nav.navbar-nav.nav-flex-icons.ml-auto
+                        li.nav-item.dropdown
+                            a.nav-link.dropdown-toggle(id='navbarD', href='#', data-toggle="dropdown", aria-haspopup="true", aria-expanded="false") <i class='fa fa-user'>#{admin.nom}</i>
+                            .dropdown-menu.dropdown-menu-right(aria-labelledby='navbarD')
+                                a.dropdown-item(href='/admin/logout') Deconnexion
+
+
+        block content
+
+
+        footer.page-footer.center-on-small-only.blue-grey.lighten-5.pt-0(id='footer')
+            .container-fluid.blue-gradient
+                .row.py-4.d-flex.align-items-center
+                    .col-md-5.col-12.text-left.mb-4.mb-md-0
+                        h6.mb-0.white-text.text-center.text-md-left Retrouver Nous Sur les Reseaux Sociaux
+                    .col-12.col-md-7.text-center.text-md-right
+                        a.icons-sm.fb-ic.ml-0
+                            i.fa.fa-facebook.white-text.mr-lg-4
+                        a.icons-sm.fb-ic.ml-0
+                            i.fa.fa-facebook.white-text.mr-lg-4
+                        a.icons-sm.fb-ic.ml-0
+                            i.fa.fa-facebook.white-text.mr-lg-4
+                        a.icons-sm.fb-ic.ml-0
+                            i.fa.fa-facebook.white-text.mr-lg-4
+                        a.icons-sm.fb-ic.ml-0
+                            i.fa.fa-facebook.white-text.mr-lg-4
+
+            .container.mt-5.mb-4.text-center.text-md-left
+                .row.mt-3
+                    .col-md-3.col-lg-4.col-xl-3.mb-r.dark-grey-text
+                        h6.title.font-bold
+                            strong Poulet Money
+                        hr.teal.accent-3.mb-4.mt-0.d-inline-block.mx-auto(style={width:'60px'})
+                        p Description de Poulet Money
+                    .col-md-2.col-lg-2.col-xl-2.mx-auto.mb-r.dark-grey-text
+                        h6.title.font-bold
+                            strong Nos Services
+                        hr.teal.accent-3.mb-4.mt-0.d-inline-block.mx-auto(style={width:'60px'})
+                        p.dark-grey-text Vente de Poulet
+                        p.dark-grey-text Realisation de Prestation
+                    .col-md-2.col-lg-2.col-xl-2.mx-auto.mb-r.dark-grey-text
+                        h6.title.font-bold
+                            strong Navigation
+                        hr.teal.accent-3.mb-4.mt-0.d-inline-block.mx-auto(style={width: '60px'})
+                        p.dark-grey-text Nos Offres
+                        p.dark-grey-text Les Demandes
+                        p.dark-grey-text Nos Prestations
+                    .col-md-2.col-lg-2.col-xl-2.mx-auto.mb-r.dark-grey-text
+                        h6.title.font-bold
+                            strong Navigation
+                        hr.teal.accent-3.mb-4.mt-0.d-inline-block.mx-auto(style={width: '60px'})
+                        p.dark-grey-text Nos Offres
+                        p.dark-grey-text Les Demandes
+                        p.dark-grey-text Nos Prestations
+                        p.dark-grey-text Connexion
+                        p.dark-grey-text Inscription
+            .footer-copyright
+                .container-fluid
+                    | © 2018 Copyright
+                    strong
+                        a(href='#') PouletMoney
+
+
+        block script
+            script(type='text/javascript', src='/admin/jquery-3.js')
+            script(type='text/javascript', src='/javascripts/foundation.js')
+            script(type='text/javascript', src='/admin/mdb.js')
+            script(type='text/javascript', src='/admin/popper.js')
+            script(type='text/javascript', src='/admin/bootstrap.js')
+            script.
+                $(".button-collapse").sideNav();
+                var container = document.getElementById('slide-out');
+                Ps.initialize(container, {
+                    wheelSpeed: 2,
+                    wheelPropagation: true,
+                    minScrollbarLength: 20
+                });
+
+        .drag-target(style={left: '0px', 'touch-action': 'pan-y', '-moz-user-select': 'none'})
+        .hiddendiv.common

@@ -95,6 +95,20 @@ router.post('/editprofile', isLoggedIn, function (req, res, next){
     });
 });
 
+router.post('/rechargeCompte', function (req, res, next) {
+   Compte.findById(req.user.compteID, function(err, compte){
+       var recharge = parseInt(req.body.montantRecharge);
+       var historique = new Historique();
+       historique.compteID = compte._id;
+       historique.description = "Vous Avez Rechargé " + recharge + " dans votre compte le " + historique.date.toDateString();
+       historique.save();
+       compte.montant += recharge;
+       compte.save();
+       res.redirect('/users/profil');
+   })
+});
+
+
 router.get('/logout', function(req, res){
   req.logout();
   if(req.session.cart){

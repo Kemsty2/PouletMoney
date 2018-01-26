@@ -1,0 +1,30 @@
+extends layoutadmin
+
+block content
+    .container-fluid.jumbotron.jumbotron-fluid.blue-gradient.white-text.text-center.grid-padding-y.smooth-scroll
+        h2.bg-gr Bienvenu Sur La Page D'Administration de Poulet Money
+        p Dans cette section vous pouvez gerer les offres, prestations et clients de Poulet Money
+        p <a href = '#offre' class='btn btn-outline-primary waves-effect blue-grey lighten-5 '> Commencer </a>
+
+    .container.grid-margin-x.grid-x
+        .small-4.cell
+            .card
+                .card-header.blue-gradient.white-text Créer Offre
+                .card-body
+                    h5.card-title.font-bold <strong>Création D'une Nouvelle Offre</strong>
+                    p.card-text.text-muted.text-center Cliquer Sur <strong> Créer </strong> Pour créer une nouvelle offre
+                    button(type='button').btn.blue-gradient Créer
+        .small-4.cell
+            .card
+                .card-header.blue-gradient.white-text Créer Client
+                .card-body
+                    h5.card-title.font-bold <strong>Création D'une Nouveau Client</strong>
+                    p.card-text.text-muted.text-center Cliquer Sur <strong> Créer </strong> Pour créer une nouvelle client
+                    button(type='button').btn.blue-gradient Créer
+        .small-4.cell
+            .card
+                .card-header.blue-gradient.white-text Créer Prestation
+                .card-body
+                    h5.card-title.font-bold <strong>Création D'une Nouvelle Prestation</strong>
+                    p.card-text.text-muted.text-center Cliquer Sur <strong> Créer </strong> Pour créer une nouvelle prestation
+                    button(type='button').btn.blue-gradient Créer

@@ -17,15 +17,20 @@ router.get('/', notLoggedIn, function(req, res, next) {
 });
 
 router.get('/home',isLoggedIn, function(req, res, next){
-    var totalQty = 0;
-    if(req.session.cart){
-        totalQty = req.session.cart.totalQty;
+    if(req.user.type_personne == 'Client'){
+        var totalQty = 0;
+        if(req.session.cart){
+            totalQty = req.session.cart.totalQty;
+        }
+        Prestation.find(function(err, prestations){
+            Offre.find(function(err, docs){
+                res.render('home', {admin: req.user, compteMessage: req.flash('compteMessage'), offres: docs, prestations: prestations, totalQty: totalQty});
+            });
+        });
     }
-  Prestation.find(function(err, prestations){
-      Offre.find(function(err, docs){
-          res.render('home', {admin: req.user, compteMessage: req.flash('compteMessage'), offres: docs, prestations: prestations, totalQty: totalQty});
-      });
-  });
+    else{
+        res.redirect('/admin/');
+    }
 
 });
 

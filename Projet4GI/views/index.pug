@@ -1,8 +1,6 @@
 extends layout
 
 block content
-  if message
-    h1.text-center.warning #{message}
   .orbit(role='region', aria-label='Favorite Space Pictures', data-orbit)
     ul.orbit-container
       button.orbit-previous(aria-label='previous')

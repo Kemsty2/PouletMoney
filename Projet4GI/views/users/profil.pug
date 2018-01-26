@@ -1,6 +1,47 @@
 extends ../layout
 
 block content
+    script(src="https://www.paypalobjects.com/api/checkout.js")
+    script.
+        paypal.Button.render({
+
+            env: 'sandbox', // sandbox | production
+
+            // PayPal Client IDs - replace with your own
+            // Create a PayPal app: https://developer.paypal.com/developer/applications/create
+            client: {
+                sandbox: 'AZMgKtYEfePp339pwSDMA54z8WAe1lMgJCjaqhJBXQq-gPl6vPjmSGajK25B6kpqz-KXWgh-I_7n-q2y'
+            },
+
+            // Show the buyer a 'Pay Now' button in the checkout flow
+            commit: true,
+
+            // payment() is called when the button is clicked
+            payment: function (data, actions) {
+
+                // Make a call to the REST api to create the payment
+                return actions.payment.create({
+                    payment: {
+                        transactions: [
+                            {
+                                amount: {total: document.getElementById('montantRecharge').value, currency: 'USD'}
+                            }
+                        ]
+                    }
+                });
+            },
+
+            // onAuthorize() is called when the buyer approves the payment
+            onAuthorize: function (data, actions) {
+
+                // Make a call to the REST api to execute the payment
+                return actions.payment.execute().then(function () {
+                    document.getElementById('test').submit();
+                });
+            }
+
+        }, '#paypal-button-container');
+
 
     .container-fluid.mt-5
         section.section.team-section
@@ -114,10 +155,27 @@ block content
                                 .small-4.cell
                                 .small-4.cell.d-flex.justify-content-center
                                     .text-center.mt-3
-                                        button(type='button', onclick='activate();', style={'font-size': '12px'}).btn.btn-block.btn-rounded.z-depth-1a.blue-gradient Recharger mon compte
+                                        button(type='button', data-toggle='modal', data-target='#recharge', style={'font-size': '12px'}).btn.btn-block.btn-rounded.z-depth-1a.blue-gradient Recharger mon compte
 
     .modal-fade(id='commandes', tabindex='-1', role='dialog', aria-labelledby='commandes', aria-hidden='true')
-        .modal-dialog-modal-lg(role='document')
+        .modal-dialog.modal-lg(role='document')
+
+    .modal.fade(id='recharge', tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+        .modal-dialog.cascading-modal(role='document')
+            form(action='/users/rechargeCompte', method='post', id='test').modal-content
+                .modal-header.blue-gradient.darken-3.white-text
+                    h4.title
+                        i.fa.fa-bank Recharger Compte
+                    button(type='button', data-dismiss='modal', aria-label='close').close.waves-effect.waves-light
+                        span(aria-hidden='true') &times;
+                .modal-body.mb-0
+                    .md-form.form-sm
+                        i.fa.prefix.fa-user-circle
+                        input(type='text', id='montantRecharge', name='montantRecharge').form-control
+                        label(for='montantRecharge') Montant à Recharger
+                    .text-center.mt-1-half
+                        #paypal-button-container
+
 
     script(type='text/javascript').
         function activate(){
