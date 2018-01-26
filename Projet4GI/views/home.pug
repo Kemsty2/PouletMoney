@@ -58,22 +58,34 @@ block content
 
 
         section.small-9.cell(id='offre')
-            hr
+            hr.blue
             h2.title.text-center Nos Offres
-            hr
+            hr.blue
             .grid-x.grid-padding-x.grid-container
                 input(type='hidden', name='choixOffre', id='choixOffre')
                 each offre in offres
                     .cell.small-3
-                        -var image = offre.img
-                        -var id = offre._id;
-                        img(id='oldimage' + id, src= image).thumbnail
-                        h5(id = 'oldtype' + id) <u><strong>Type</strong></u>: #{offre.type_poulet}
-                        h6(id='oldgrosseur' + id) <u><strong>Grosseur</strong></u>: #{offre.grosseur}
-                        h6(id='oldquantite' + id) <u><strong>Quantité</strong></u>: #{offre.quantite}
-                        p(id='oldprix' + id) <u><b>Prix</b></u>: #{offre.prix}
-                        - var id = offre._id;
-                        button.button.expanded.blue-gradient(data-target='#modalQuickView',data-toggle='modal' onclick='look' + id + '(this);', value= id ) Consulter
+
+                        .card.pricing-card.card-cascade
+                            .price.header
+                                -var image = offre.img
+                                -var id = offre._id;
+                                .version.blue-gradient
+                                    h6(id = 'oldtype' + id) <u><strong>Type</strong></u>: #{offre.type_poulet}
+                                .view.overlay.hm-white-light
+                                    img(id='oldimage' + id, src= image).thumbnail
+                                .text-center
+                                    .card-body.striped
+                                        ul.text-left.dark-grey-text
+                                            li
+                                                h6(id='oldgrosseur' + id) <u><strong>Grosseur</strong></u>: #{offre.grosseur}
+                                            li
+                                                h6(id='oldquantite' + id) <u><strong>Quantité</strong></u>: #{offre.quantite}
+                                            li
+                                                p(id='oldprix' + id) <u><b>Prix</b></u>: #{offre.prix}
+                                        - var id = offre._id;
+                                        button.button.expanded.blue-gradient(data-target='#modalQuickView',data-toggle='modal' onclick='look' + id + '(this);', value= id ) Consulter
+
 
 
 
@@ -89,7 +101,7 @@ block content
                             hr.light-blue
                             .card.pricing-card.card-cascade
                                 .price.header
-                                    .version
+                                    .version.blue-gradient
                                         h5(id='typePoulet').card-title Type Poulet
                                     .view.overlay.hm-white-light
                                         img(id='imagePoulet', src='/images/img.jpg').thumbnail
@@ -108,11 +120,11 @@ block content
                                     .col-md-4
                                         .card.pricing-card.card-cascade
                                             .price.header
-                                                .version
+                                                .version.blue-gradient
                                                     -var ind = index;
                                                     -var pres = prestation._id;
                                                     input(type='hidden', name='presUrl', id='presUrl')
-                                                    input(type='checkbox', id='pres' + ind, onchange = 'j(this);', value=pres).form-group.bg-blue
+                                                    input(type='checkbox', id='pres' + ind, onchange = 'j(this);', value=pres).form-group.bg-white
                                                     label(for='pres' + ind, name='presChoix' + ind) #{prestation.nom}
                                             .view.overlay.hm-white-light
                                                 -var presPhoto = prestation.img;
