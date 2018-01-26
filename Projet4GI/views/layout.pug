@@ -20,7 +20,7 @@ html(class='no-js', lang='fr')
           ul.menu
             li(onclick='acc();').menu-text Poulet Money
             li
-              a(href='#') Nos Offres
+              a(href='/home') Nos Offres
             li
               a(href='#') Les Demandes
             li
@@ -28,10 +28,19 @@ html(class='no-js', lang='fr')
         .top-bar-right
           if admin
             ul.menu
-              li
-                a(href='#', data-toggle='modal') #{admin.local.nom}
-              li
-                a(href='users/logout') Deconnexion
+              li.nav-item
+                a.nav-link.font-bold.waves-effect.waves-light(href='/cartlist')
+                  if totalQty != 0
+                    span.badge.bg-info #{totalQty}
+                  i.fa.fa-shopping-cart.blue-text(aria-hidden = 'true')
+                  span.clearfix.d-none.d-sm-inline-block.blue-text.mt-1 Panier
+              li.nav-item.ml-3.dropdown
+                a.nav-link.waves-effect.waves-light.dark-grey-text.dropdown-toggle.font-bold(id='profil', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+                  i.fa.fa-user.blue-text.mt-1
+                  span.clearfix.d-none.d-sm-inline-block.blue-text.mt-1 #{admin.local.nom}
+                .dropdown-menu.dropdown-menu-right.dropdown-cyan.waves-light.dark-grey-text.font-bold(aria-labelledby='profil')
+                  a.dropdown-item.waves-effect.waves-light(href='/users/profil') Mon Profil
+                  a.dropdown-item.waves-effect.waves-light(href='/users/logout') Deconnexion
           else
             ul.menu
               li
@@ -213,26 +222,26 @@ html(class='no-js', lang='fr')
               var checkbox = document.getElementById('type_personne');
               if (checkbox.checked == true) {
                   document.getElementById('typeSelect').value = 'Client';
-                  alert('true');
+
               }
               else {
                   document.getElementById('typeSelect').value = 'Administrateur';
-                  alert('false');
+
               }
-              alert(document.getElementById('typeSelect').value);
+
           }
           function goface(){
-              alert('im here');
+
               document.location = 'http://localhost:3000/users/auth/facebook';
           }
 
           function gogo() {
-              alert('im here');
+
               document.location = 'http://localhost:3000/users/auth/google';
           }
 
           function gotwitter() {
-              alert('im here');
+
               document.location = 'http://localhost:3000/users/auth/twitter';
           }
           function acc(){

@@ -66,13 +66,14 @@ block content
                 each offre in offres
                     .cell.small-3
                         -var image = offre.img
-                        img(id='oldimage').thumbnail(src= image)
-                        h5(id = 'oldtype') <u><strong>Type</strong></u>: #{offre.type_poulet}
-                        h6(id='oldgrosseur') <u><strong>Grosseur</strong></u>: #{offre.grosseur}
-                        h6(id='oldquantite') <u><strong>Quantité</strong></u>: #{offre.quantite}
-                        p(id='oldprix') <u><b>Prix</b></u>: #{offre.prix}
+                        -var id = offre._id;
+                        img(id='oldimage' + id, src= image).thumbnail
+                        h5(id = 'oldtype' + id) <u><strong>Type</strong></u>: #{offre.type_poulet}
+                        h6(id='oldgrosseur' + id) <u><strong>Grosseur</strong></u>: #{offre.grosseur}
+                        h6(id='oldquantite' + id) <u><strong>Quantité</strong></u>: #{offre.quantite}
+                        p(id='oldprix' + id) <u><b>Prix</b></u>: #{offre.prix}
                         - var id = offre._id;
-                        button.button.expanded.blue-gradient(data-target='#modalQuickView',data-toggle='modal' onclick='look(this);', value= id ) Consulter
+                        button.button.expanded.blue-gradient(data-target='#modalQuickView',data-toggle='modal' onclick='look' + id + '(this);', value= id ) Consulter
 
 
 
@@ -91,7 +92,7 @@ block content
                                     .version
                                         h5(id='typePoulet').card-title Type Poulet
                                     .view.overlay.hm-white-light
-                                        img(id='imagePoulet').thumbnail(src='/images/img.jpg')
+                                        img(id='imagePoulet', src='/images/img.jpg').thumbnail
                                     .text-center
                                         .card-body.striped
                                             ul.text-left.dark-grey-text
@@ -103,12 +104,16 @@ block content
                             h2.text-center Choisir Votre Prestation
                             hr.light-blue
                             .row
-                                each prestation in prestations
+                                each prestation, index in prestations
                                     .col-md-4
                                         .card.pricing-card.card-cascade
                                             .price.header
                                                 .version
-                                                    h5.card-title #{prestation.nom}
+                                                    -var ind = index;
+                                                    -var pres = prestation._id;
+                                                    input(type='hidden', name='presUrl', id='presUrl')
+                                                    input(type='checkbox', id='pres' + ind, onchange = 'j(this);', value=pres).form-group.bg-blue
+                                                    label(for='pres' + ind, name='presChoix' + ind) #{prestation.nom}
                                             .view.overlay.hm-white-light
                                                 -var presPhoto = prestation.img;
                                                 img(src=presPhoto, alt='image').img-fluid
@@ -118,8 +123,7 @@ block content
                                                         li <u>Prix: </u> #{prestation.prix}
                                                         li <u>Durée: </u> #{prestation.duree}
                                                         li(style={"font-size": "10px"}) #{prestation.date_publication}
-                                                        -var id2 = prestation._id;
-                                                    button(type='button', onclick='addtocard(this);', value=id2).btn.btn-light-blue.btn-rounded Ajouter Au Panier
+                                button(type='button', onclick='addtocard();').btn.btn-light-blue.btn-rounded.m-auto Ajouter Au Panier
 
 
         script(type='text/javascript').
@@ -134,8 +138,26 @@ block content
 
             }
 
-            function addtocard(elt){
+            function addtocard(){
                 var choixOffre = document.getElementById('choixOffre').value;
-                var choixPrestation = elt.value;
-                alert('http://localhost/addtocart/offre/' +choixOffre + '/prestation/' + choixPrestation);
+                var presUrl = document.getElementById('presUrl').value;
+                document.location = 'http://localhost:3000/addtocart/offre/' + choixOffre + '/prestation/' + presUrl;
             }
+            function j(elt){
+                var presUrl = document.getElementById('presUrl');
+                if(elt.checked){
+                    presUrl.value += elt.value + '_';
+                }
+            }
+
+        each offre in offres
+            script(type='text/javascript').
+                function look#{offre._id}(elt){
+                    var choixOffre = document.getElementById('choixOffre');
+                    choixOffre.value = elt.value;
+                    document.getElementById('typePoulet').textContent = document.getElementById('oldtype' + '#{offre._id}').textContent;
+                    document.getElementById('imagePoulet').src = document.getElementById('oldimage' + '#{offre._id}').src;
+                    document.getElementById('grosseur').textContent = document.getElementById('oldgrosseur' + '#{offre._id}').textContent;
+                    document.getElementById('quantite').textContent = document.getElementById('oldquantite' + '#{offre._id}').textContent;
+                    document.getElementById('prix').textContent = document.getElementById('oldprix' + '#{offre._id}').textContent;
+                }

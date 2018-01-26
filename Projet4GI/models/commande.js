@@ -3,18 +3,15 @@
  */
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var Client = require('../models/client');
-var Offre = require('../models/offre');
-var prestation = require('../models/prestation');
+
 
 
 var CommandeSchema = new Schema({
-    client: {type: Client, required: true},
-    offre: {type: Offre, required: true},
-    prestation: {type: prestation, required: true},
-    quantite: Number,
+    clientid: {type: String, required: true},
+    offre: {type: Array, required: true},
+    prestations: {type: Array, required: true, default: []},
     prix: Number,
-    date: {type: Date, required: true}
+    date: {type: Date, required: true, default: Date.now()}
 });
 
 module.exports = mongoose.model('Commande', CommandeSchema);

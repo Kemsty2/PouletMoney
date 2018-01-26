@@ -1,0 +1,133 @@
+extends ../layout
+
+block content
+
+    .container-fluid.mt-5
+        section.section.team-section
+            .row.text-center
+                .col-md-4.mb-r
+                    .card.card-cascade.wider
+                        .view.overlay.hm-black-slight
+                            img(src='/images/img.jpg').img-fluid
+                            a(href='#') <div class='mask'></div>
+                        .card-body.text-center
+                            h4.card-title <strong> #{admin.local.nom} #{admin.local.prenom} </strong>
+                            h5.text-muted.fs-3 <strong> #{admin.local.email} </strong>
+                            h5.text-muted.fs-3 <strong> #{admin.local.tel} </strong>
+                            h5.fs-3.text-muted #{admin.local.ville}  - #{admin.local.quartier}
+                            h5.indigo-text <strong> #{admin.type_personne} </strong>
+                            if editmessage
+                                h5 #{editmessage}
+
+                .col-md-8.mb-r
+                    ul.nav.tabs.nav-justified.blue-gradient.nav-tabs(id='example', data-tabs)
+                        li.tabs-title.is-active.nav-item
+                            a(href='#panel5', aria-selected='true').fs-3.dark-grey-text <strong> Modifier Profil </strong>
+                        li.tabs-title.nav-item
+                            a(aria-selected='true', href='#panel6').fs-3.dark-grey-text <strong> Mes Demandes </strong>
+                        li.tabs-title.nav-item
+                            a(aria-selected='true', href='#panel7', style={'font-size': '14px'}).dark-grey-text <strong> Historique Transaction </strong>
+                        li.tabs-title.nav-item
+                            a(aria-selected='true', href='#panel8').fs-3.dark-grey-text <strong> Mon Compte </strong>
+
+                    .tabs-content(data-tabs-content='example')
+                        .tabs-panel.is-active(id='panel5')
+                            br
+                            form(action='/users/editprofile', method='post')
+                                .grid-x.grid-margin-x
+                                    .md-form.small-6.cell
+                                        input(type='text', id='nom', name='nom', value= admin.local.nom, disabled).input
+                                        label(for='nom') Nom
+                                    .md-form.small-6.cell
+                                        input(type='text', id='prenom', name='prenom', value= admin.local.prenom, disabled).input
+                                        label(for='prenom') Prenom
+                                .grid-x.grid-margin-x
+                                    .md-form.small-4.cell
+                                        input(type='text', id='emailRegister', name='emailRegister', value= admin.local.email, disabled).input
+                                        label(for='emailRegister') Email
+                                    .md-form.small-4.cell
+                                        input(type='password', id='passwordRegister', name='passwordRegister', value= admin.local.password, disabled, onfocus='efface(this);').input
+                                        label(for='passwordRegister') Mot De Passe
+                                    .md-form.small-4.cell
+                                        input(type='password', id='confirmpasswordRegister', name='confirmpasswordRegister', value= admin.local.password, disabled, onfocus='efface(this);').input
+                                        label(for='confirmpasswordRegister') Confirmer Mot De Passe
+                                .grid-x.grid-margin-x
+                                    .md-form.small-4.cell
+                                        input(type='text', id='tel', name='tel', value= admin.local.tel, disabled).input.typeahead
+                                        label(for='tel') Tel
+                                    .md-form.small-4.cell#ville
+                                        input(type='text', id='ville1', placeholder='Ville', name='ville1', value= admin.local.ville, disabled).typeahead.input
+                                    .md-form.small-4.cell#quartier
+                                        input(type='text', id='quartier1', placeholder='Quartier', name='quartier1', value= admin.local.quartier, disabled).typeahead.input
+                                .grid-margin-x.grid-x.mt-3
+                                    .small-3.cell
+                                    .small-3.cell.d-flex.justify-content-center
+                                        .text-center.mt-3
+                                            button(type='button', onclick='activate();', style={'font-size': '12px'}).btn.btn-block.btn-rounded.z-depth-1a.blue-gradient.input Modifier Profil
+                                    .small-3.cell.d-flex.justify-content-center
+                                        .text-center.mt-3
+                                            button(type='submit', disabled).btn.btn-block.btn-rounded.z-depth-1a.bg-light-green.input Sauvegarder
+
+                        .tabs-panel(id='panel6')
+                            br
+                            .table-responsive
+                                table.product-table.table
+                                    thead
+                                        tr
+                                            th(colspan='6') Listes des Demandes
+                                    tbody
+                                        tr
+                                            td(colspan='6')
+                                                h5.text-muted Vous N'avez Effectuer Aucune Demandes
+
+                        .tabs-panel(id='panel7')
+                            br
+                            .table-responsive
+                                table.table.table-bordered.table-striped
+                                    thead
+                                        tr
+                                            th #
+                                            th(colspan='5').text-center Historique des transactions
+                                    tbody
+                                        if historiques
+                                            each historique, index in historiques
+                                                tr
+                                                    td #{index + 1}
+                                                        td(colspan='5')
+                                                            h6.text-muted
+                                                                a(href='#commandes', data-toggle='modal') #{historique.personnel}
+                                        else
+                                            tr
+                                                td(colspan='6')
+                                                    h5.text-muted Vous N'avez Effectuer Aucune Transactions
+                        .tabs-panel(id='panel8')
+                            br
+                            .grid-x.grid-margin-x
+                                .small-8.cell.text-center
+                                    hr.blue
+                                    h3 Vous Disposer de :
+                                    hr.blue
+                                .small-4.cell.mt-2
+                                    .callout.blue-grey.lighten-5
+                                        h4.text-muted.light-green-text #{compte.montant} Fcfa
+                            .grid-margin-x.grid-x.mt-3
+                                .small-4.cell
+                                .small-4.cell.d-flex.justify-content-center
+                                    .text-center.mt-3
+                                        button(type='button', onclick='activate();', style={'font-size': '12px'}).btn.btn-block.btn-rounded.z-depth-1a.blue-gradient Recharger mon compte
+
+    .modal-fade(id='commandes', tabindex='-1', role='dialog', aria-labelledby='commandes', aria-hidden='true')
+        .modal-dialog-modal-lg(role='document')
+
+    script(type='text/javascript').
+        function activate(){
+            var inputs = document.getElementsByClassName('input');
+            for(var id in inputs){
+                inputs[id].disabled = false;
+            }
+            inputs[0].focus()
+        }
+
+        function efface(elt){
+            elt.value = '';
+        }

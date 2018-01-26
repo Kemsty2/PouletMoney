@@ -9,3 +9,5 @@ var demandeSchema = new Schema({
     grosseur: {type: String, required: true},
     quantite: {type: Number, required: true}
 });
+
+module.exports = mongoose.model('Demande', demandeSchema);

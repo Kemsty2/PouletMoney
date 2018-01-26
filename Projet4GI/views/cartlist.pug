@@ -1,0 +1,216 @@
+doctype html
+html(class='no-js', lang='fr')
+    head
+        meta(charset='utf-8')
+        meta(http-equiv='Content-type', content='text/html')
+        meta(name='viewport', content='width=device-width, initial-scale=1.0')
+        link(rel='stylesheet', href='/stylesheets/foundation.css')
+        link(rel='stylesheet', href='/cartlist/bootstrap.css')
+        link(rel='stylesheet', href='/cartlist/mdb.css')
+        link(rel='stylesheet', href='/cartlist/style.css')
+        link(rel='stylesheet', href='/stylesheets/font-awesome.css')
+        title PouletMoney - Acceuil
+
+
+    body
+        block navbar
+            .top-bar
+                .top-bar-left
+                    ul.menu
+                        li(onclick='acc();').menu-text Poulet Money
+                        li
+                            a(href='/home') Nos Offres
+                        li
+                            a(href='#') Les Demandes
+                        li
+                            a(href='#modalContactForm', data-toggle='modal') Contactez Nous
+                .top-bar-right
+                    if admin
+                        ul.menu
+                            li.nav-item
+                                a.nav-link.font-bold.waves-effect.waves-light(href='/cartlist')
+                                    if totalQty != 0
+                                        span.badge.bg-info #{totalQty}
+                                    i.fa.fa-shopping-cart.blue-text(aria-hidden = 'true')
+                                    span.clearfix.d-none.d-sm-inline-block.blue-text.mt-1 Panier
+                            li.nav-item.ml-3.dropdown
+                                a.nav-link.waves-effect.waves-light.dark-grey-text.dropdown-toggle.font-bold(id='profil', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+                                    i.fa.fa-user.blue-text.mt-1
+                                    span.clearfix.d-none.d-sm-inline-block.blue-text.mt-1 #{admin.local.nom}
+                                .dropdown-menu.dropdown-menu-right.dropdown-cyan.waves-light.dark-grey-text.font-bold(aria-labelledby='profil')
+                                    a.dropdown-item.waves-effect.waves-light(href='/users/profil') Mon Profil
+                                    a.dropdown-item.waves-effect.waves-light(href='/users/logout') Deconnexion
+                    else
+                        ul.menu
+                            li
+                                a(href='#connexion', data-toggle='modal') Connexion
+                            li
+                                a(href='#inscription', data-toggle='modal') Inscription
+
+        block content
+            .container
+                hr.bg-light-blue
+                h1.text-center Votre Panier
+                hr.bg-light-blue
+                section.section.my-5.pb-5
+                    .table-responsive
+                       table.table.product-table
+                           thead
+                            tr
+                                th
+                                th.font-bold Offre
+                                th.font-bold.text-center Prestations
+                                th.font-bold Prix Offre
+                                th.font-bold Prix Prestations
+                                th.font-bold Prix Commande
+                            tbody
+                                if commandes
+                                    if commandes.length != 0
+                                        each commande in commandes
+                                            tr
+                                                -var prixPrestation = 0;
+                                                if commande.prestations
+                                                    each prestation in commande.prestations
+                                                        -prixPrestation = prixPrestation + prestation.prix;
+                                                th(scope='row')
+                                                    -var offreimg =  commande.offre[0].image
+                                                    img(src= offreimg).img-fluid.z-depth-0
+                                                td
+                                                    h5.mt-3 #{commande.offre[0].type_poulet}
+                                                    p.text-muted Quantite: #{commande.offre[0].quantite}
+                                                    p.text-muted Grosseur: #{commande.offre[0].grosseur}
+                                                td
+                                                    if commande.prestations.length != 0
+                                                        each prestation in commande.prestations
+                                                            p.mt-3 #{prestation.nom} ; <span class='text-muted'><strong>Durée </strong>: #{prestation.duree} hrs; <strong>Prix </strong>: #{prestation.prix} Fcfa</span>
+                                                    else
+                                                        p.mt-3 Aucune Prestation Selectionner
+
+                                                td.text-center #{commande.offre[0].prix} Fcfa
+                                                td.text-center #{prixPrestation} Fcfa
+                                                - var total = commande.offre[0].prix + prixPrestation;
+                                                td.font-bold.text-center #{total} Fcfa
+                                else
+                                    tr
+                                        td(colspan='6')
+                                            h1.text-muted.text-center Aucune Offre n'a été Selectionner
+                    hr
+                    if commandes
+                        if commandes.length != 0
+                            form(action='/buy', method='post')
+                                .row
+                                    .col-md-3
+                                    .col-md-3
+                                        h5.mt-4.text-center <strong class='blue-text'> Date Livraison</strong> : 27/10/17
+                                        input(type='hidden', value='27/10/17', name='date_livraison', id='date_livraison')
+                                    .col-md-3
+                                        h5.mt-4.text-center <strong class='blue-text'> Total</strong> : #{totalPrix} Fcfa
+                                        input(type='hidden', value=totalPrix, name='totalPrix', id='totalPrix')
+                                    .col-md-3
+                                        button(type='submit').btn.btn-primary.btn-rounded.waves-effect.waves-light Payer
+
+
+
+
+
+        footer.page-footer.center-on-small-only.blue-grey.lighten-5.pt-0(id='footer')
+            .container-fluid.blue-gradient
+                .row.py-4.d-flex.align-items-center
+                    .col-md-5.col-12.text-left.mb-4.mb-md-0
+                        h6.mb-0.white-text.text-center.text-md-left Retrouver Nous Sur les Reseaux Sociaux
+                    .col-12.col-md-7.text-center.text-md-right
+                        a.icons-sm.fb-ic.ml-0
+                            i.fa.fa-facebook.white-text.mr-lg-4
+                        a.icons-sm.fb-ic.ml-0
+                            i.fa.fa-facebook.white-text.mr-lg-4
+                        a.icons-sm.fb-ic.ml-0
+                            i.fa.fa-facebook.white-text.mr-lg-4
+                        a.icons-sm.fb-ic.ml-0
+                            i.fa.fa-facebook.white-text.mr-lg-4
+                        a.icons-sm.fb-ic.ml-0
+                            i.fa.fa-facebook.white-text.mr-lg-4
+
+            .container.mt-5.mb-4.text-center.text-md-left
+                .row.mt-3
+                    .col-md-3.col-lg-4.col-xl-3.mb-r.dark-grey-text
+                        h6.title.font-bold
+                            strong Poulet Money
+                        hr.teal.accent-3.mb-4.mt-0.d-inline-block.mx-auto(style={width: '60px'})
+                        p Description de Poulet Money
+                    .col-md-2.col-lg-2.col-xl-2.mx-auto.mb-r.dark-grey-text
+                        h6.title.font-bold
+                            strong Nos Services
+                        hr.teal.accent-3.mb-4.mt-0.d-inline-block.mx-auto(style={width: '60px'})
+                        p.dark-grey-text Vente de Poulet
+                        p.dark-grey-text Realisation de Prestation
+                    .col-md-2.col-lg-2.col-xl-2.mx-auto.mb-r.dark-grey-text
+                        h6.title.font-bold
+                            strong Navigation
+                        hr.teal.accent-3.mb-4.mt-0.d-inline-block.mx-auto(style={width: '60px'})
+                        p.dark-grey-text Nos Offres
+                        p.dark-grey-text Les Demandes
+                        p.dark-grey-text Nos Prestations
+                    .col-md-2.col-lg-2.col-xl-2.mx-auto.mb-r.dark-grey-text
+                        h6.title.font-bold
+                            strong Navigation
+                        hr.teal.accent-3.mb-4.mt-0.d-inline-block.mx-auto(style={width: '60px'})
+                        p.dark-grey-text Nos Offres
+                        p.dark-grey-text Les Demandes
+                        p.dark-grey-text Nos Prestations
+                        p.dark-grey-text Connexion
+                        p.dark-grey-text Inscription
+            .footer-copyright
+                .container-fluid
+                    | © 2018 Copyright
+                    strong
+                        a(href='#') PouletMoney
+
+        .modal.fade(id='modalContactForm', tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+            .modal-dialog.cascading-modal(role='document')
+                .modal-content
+                    .modal-header.blue-gradient.darken-3.white-text
+                        h4.title
+                            i.fa.fa-pencil Contactez Nous
+                        button(type='button', data-dismiss='modal', aria-label='close').close.waves-effect.waves-light
+                            span(aria-hidden='true') &times;
+                    .modal-body.mb-0
+                        .md-form.form-sm
+                            i.fa.prefix.fa-user-circle
+                            input(type='text', id='form19').form-control
+                            label(for='form19') Nom
+                        .md-form.form-sm
+                            i.fa.fa-envelope.prefix
+                            input(type='email', id='form20').form-control
+                            label(for='form20') Email
+                        .md-form.form-sm
+                            i.fa.fa-tag.prefix
+                            input(type='text', id='form21').form-control
+                            label(for='form21') Sujet
+                        .md-form.form-sm
+                            i.fa.fa-tag.prefix
+                            textarea(type='text', id='form8').md-textarea.mb-0
+                            label(for='form8') votre message
+                        .text-center.mt-1-half
+                            button.btn.btn-info.mb-2
+                                | Send
+
+        block script
+            script(type='text/javascript').
+                new WOW().init();
+
+                $(function () {
+                    $("#mdb-lightbox-ui").load("mdb-addons/mdb-lightbox-ui.html");
+                });
+                $(function () {
+                    $('[data-toggle="tooltip"]').tooltip()
+                });
+                $(document).ready(function () {
+                    $('.mdb-select').material_select();
+                });
+
+            script(type='text/javascript', src='/cartlist/jquery-3.js')
+            script(type='text/javascript', src='/javascript/foundation.js')
+            script(type='text/javascript', src='/cartlist/popper.js')
+            script(type='text/javascript', src='/cartlist/mdb.js')
+            script(type='text/javascript', src='/cartlist/bootstrap.js')
+

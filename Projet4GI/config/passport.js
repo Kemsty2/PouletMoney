@@ -34,7 +34,7 @@ passport.use('login', new LocalStrategy({
     passReqToCallback: true
 },
 function(req, email, password, done){
-    if(req.param('typeSelect') == 'Administrateur'){
+    if(req.body.typeSelect == 'Administrateur'){
         Admin.findOne({'email': email}, function(err, admin){
             if(err)
                 return done(err);
@@ -46,7 +46,7 @@ function(req, email, password, done){
             return done(null, admin);
         });
     }
-    if(req.param('typeSelect') == 'Client'){
+    if(req.body.typeSelect == 'Client'){
         Client.findOne({'local.email': email}, function(err, client){
             if(err)
                 return done(err);
@@ -79,11 +79,11 @@ passport.use('register', new LocalStrategy({
             var newClient = new Client();
             newClient.local.email = emailRegister;
             newClient.local.password = newClient.encryptPassword(passwordRegister);
-            newClient.local.nom = req.param('nom');
-            newClient.local.tel = req.param('tel');
-            newClient.local.prenom = req.param('prenom');
-            newClient.local.ville = req.param('ville1');
-            newClient.local.quartier = req.param('quartier1');
+            newClient.local.nom = req.body.nom;
+            newClient.local.tel = req.body.tel;
+            newClient.local.prenom = req.body.prenom;
+            newClient.local.ville = req.body.ville1;
+            newClient.local.quartier = req.body.quartier1;
             newClient.type_personne = 'Client';
             newClient.compteID = compteClient._id;
 
@@ -93,8 +93,13 @@ passport.use('register', new LocalStrategy({
                     throw err;
                 }
                 console.log("Inscription Reussi");
-                req.flash('compteMessage', 'Bienvenue Votre Compte a été initialisé à 200000 FCFA. Profiter En!!!');
-                return done(null, newClient);
+                compteClient.save(function (err) {
+                    if(err){
+                        throw err;
+                    }
+                    req.flash('compteMessage', 'Bienvenue Votre Compte a été initialisé à 200000 FCFA. Profiter En!!!');
+                    return done(null, newClient);
+                });
             });
         }
     });
